@@ -13,7 +13,7 @@ const BEFORE_BLOCKED = 'A-Za-z0-9_/.-'
 /** Characters that, immediately after a skill name, mean the match is a path segment. */
 const AFTER_BLOCKED = 'A-Za-z0-9_/-'
 
-/** The 35 locales skill names, sorted. */
+/** The 37 locales skill names, sorted. */
 export const SKILL_NAMES = [
   'ask-matt',
   'claude-handoff',
@@ -27,12 +27,14 @@ export const SKILL_NAMES = [
   'grilling',
   'handoff',
   'implement',
+  'implement-spec',
   'improve-codebase-architecture',
   'loop-me',
   'migrate-to-shoehorn',
+  'pr',
   'prototype',
   'research',
-  'resolving-merge-conflicts',
+  'retro',
   'scaffold-exercises',
   'setup-matt-pocock-skills',
   'setup-pre-commit',

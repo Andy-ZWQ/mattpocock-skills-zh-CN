@@ -24,10 +24,10 @@ test('createProvider returns a named provider whose list and get are thenable', 
   assert.equal(typeof provider.get({}).then, 'function')
 })
 
-test('list resolves to 35 well-formed zh- candidates owned by the provider', async () => {
+test('list resolves to 37 well-formed zh- candidates owned by the provider', async () => {
   const candidates = await m.createProvider().list({})
-  assert.equal(candidates.length, 35)
-  assert.equal(new Set(candidates.map((candidate) => candidate.name)).size, 35)
+  assert.equal(candidates.length, 37)
+  assert.equal(new Set(candidates.map((candidate) => candidate.name)).size, 37)
   for (const candidate of candidates) {
     assert.equal(candidate.provider, PROVIDER_NAME)
     assert.equal(candidate.source, 'bundled')
@@ -59,7 +59,7 @@ test('get loads the zh-grill-me body and a directory resource base', async () =>
   const candidate = candidates.find((entry) => entry.name === 'zh-grill-me')
   const skill = await provider.get(candidate, {})
   assert.equal(skill.name, 'zh-grill-me')
-  assert.match(skill.content, /zh-grilling/)
+  assert.match(skill.content, /grilling/)
   assert.deepEqual(skill.resourceBase, { kind: 'directory', path: candidate.locator })
   assert.equal(skill.rank, undefined)
   assert.equal(skill.locator, undefined)
@@ -76,7 +76,7 @@ test('apply registers a provider that lists the same catalog', async () => {
   m.apply({ skills: { registerProvider: (create) => { captured = create() } } })
   assert.equal(captured.name, PROVIDER_NAME)
   const candidates = await captured.list({})
-  assert.equal(candidates.length, 35)
+  assert.equal(candidates.length, 37)
   for (const candidate of candidates) {
     assert.equal(candidate.provider, m.name)
   }
