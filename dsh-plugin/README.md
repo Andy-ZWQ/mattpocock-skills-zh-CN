@@ -47,7 +47,13 @@ dsh --profile web --dump-config | grep 'id: mattpocock-skills-zh'
 
 ## 维护者发布
 
-发布前先登录 npm（账号需有权发布 `@vinvcn` scope）：
+常规路径是 GitHub Actions 自动发布（见 `.github/workflows/publish-dsh-plugin.yml`）：
+把 `package.json` 的 version 与 `.claude-plugin/plugin.json` 对齐后，按 `v<version>`
+打 GitHub Release，workflow 会自动跑完全部门禁并发布到 npm。npm 侧需要一次性配置
+Trusted Publishing（推荐）或 repo secret `NPM_TOKEN`，详见 workflow 文件头部注释。
+
+手动发布作为兜底：先登录 npm（账号需有权发布 `@vinvcn` scope，且开了 2FA 时
+`npm publish` 会要求 OTP）：
 
 ```sh
 npm login

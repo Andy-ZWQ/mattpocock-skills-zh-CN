@@ -2,6 +2,10 @@
 
 `mattpocock/skills@24fe0ef`（v1.3.1）于 2026-10-08
 
+提醒：每次同步上游导致 `.claude-plugin/plugin.json` 版本变化时，要同步 bump
+`dsh-plugin/package.json` 并按同名 tag 打 GitHub Release，`publish-dsh-plugin.yml`
+workflow 会自动把 dsh 插件发布到 npm。
+
 ## 同步记录
 
 - 2026-10-08：已同步 `mattpocock/skills@24fe0ef`（v1.3.1）：`implement-spec`、`pr`、`retro` 从 in-progress 毕业至 engineering，移除 `resolving-merge-conflicts`，`CONTEXT.md`/`CONTEXT-MAP.md` 约定重命名为 `GLOSSARY.md`/`GLOSSARY-MAP.md`，并落地上游的 em-dash 清理与跨 skill 调用措辞修正；维护 commit 为 `f659bb3`，PR 为 [#40](https://github.com/vinvcn/mattpocock-skills-zh-CN/pull/40)。

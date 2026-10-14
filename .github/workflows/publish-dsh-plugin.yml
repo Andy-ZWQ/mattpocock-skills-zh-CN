@@ -1,0 +1,51 @@
+# 发布 GitHub Release（tag 形如 v1.3.1）时，自动把 dsh-plugin/ 发布到 npm。
+# 也可用 workflow_dispatch 手动触发。
+#
+# 前置一次性配置（npm 侧，二选一）：
+# - Trusted Publishing（推荐，免 token、不受发布者账号 2FA 影响）：在
+#   https://www.npmjs.com/package/@vinvcn/dsh-mattpocock-skills-zh/settings
+#   的 Publishing access 里，把本仓库与本文件配置为 GitHub Actions trusted publisher。
+# - Automation token：npm granular access token（勾选 Bypass 2FA）存入 repo
+#   secret NPM_TOKEN，并在 Publish 步骤补上：
+#     env:
+#       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+name: publish-dsh-plugin
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      # Trusted Publishing 需要 npm CLI >= 11.5.1。
+      - name: Ensure npm >= 11.5.1
+        run: npm install -g npm@latest
+      - name: Tag 与 dsh-plugin/package.json 版本一致
+        if: github.event_name == 'release'
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          VER="$(node -p "require('./dsh-plugin/package.json').version")"
+          if [ "$TAG" != "$VER" ]; then
+            echo "::error::tag v${TAG} != dsh-plugin/package.json ${VER}"
+            exit 1
+          fi
+      - name: Install
+        working-directory: dsh-plugin
+        run: npm ci
+      # npm publish 会先跑 prepack：version:check -> build -> test -> verify，
+      # 任一门禁失败都会阻止发布。
+      - name: Publish
+        working-directory: dsh-plugin
+        run: npm publish
